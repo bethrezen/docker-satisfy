@@ -1,0 +1,8 @@
+parameters:
+  secret: "GNsUWTLWgo1msrBevq9nsLWCCEOOmVAD9S6Q7IdrYzg6soP3IFB5Kfz6TZY0KNUm"
+  satis_filename: "%kernel.project_dir%/satis.json"
+  satis_log_path: "%kernel.project_dir%/var/satis"
+  admin.auth: false
+  admin.users: ~
+  composer.home: "%kernel.project_dir%/.composer"
+  github.secret: ~

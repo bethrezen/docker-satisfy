@@ -1,0 +1,10 @@
+version: '3.4'
+services:
+  satisfy:
+    build: ./
+    ports:
+      - "8082:80"
+    environment:
+      - REPO_NAME=DevGroup
+      - HOMEPAGE=https://satis.devgroup.tech
+      - ADD_HOST_KEYS=true

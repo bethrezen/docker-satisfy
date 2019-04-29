@@ -17,7 +17,7 @@ SATIS_FILE="${APP_ROOT}/satis.json"
 : ${HOMEPAGE:=http://localhost:8080}
 
 : ${SSH_PRIVATE_KEY:=unset}
-: ${ADD_HOST_KEYS:=false}
+: ${ADD_HOST_KEYS:=true}
 : ${STRICT_HOST_KEY_CHECKING:-default set down below}
 
 : ${CRON_ENABLED:=true}

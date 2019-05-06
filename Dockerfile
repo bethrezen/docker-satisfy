@@ -4,7 +4,7 @@ ARG APP_USER=satisfy
 
 ENV \
     COMPOSER_VERSION=1.8.5 \
-    SATISFY_VERSION=3.1 \
+    SATISFY_VERSION=3.x-dev \
     LD_PRELOAD=/usr/lib/preloadable_libiconv.so \
     PHP_INI_PATH=/etc/php7/php.ini \
     PHP_INI_SCAN_DIR=/etc/php7/conf.d \
@@ -30,21 +30,25 @@ RUN \
     rm -rf /var/cache/apk/* && \
     if [[ "$APP_USER" != "root" ]]; then adduser -h ${APP_ROOT} -D -H ${APP_USER}; fi
 
-USER satisfy
+
+
 
 WORKDIR ${APP_ROOT}
+RUN chown -R ${APP_USER}:${APP_USER} ${APP_ROOT}
+RUN ls -la .
+USER satisfy
+
+RUN composer global require hirak/prestissimo --prefer-dist --no-interaction
 
 RUN \
-    yes | composer create-project --no-dev playbloom/satisfy . ${SATISFY_VERSION} && \
+    yes | composer -vvv create-project --no-dev playbloom/satisfy ./satisfy-dev ${SATISFY_VERSION} && \
+    mv -f satisfy-dev/* ./ && \
+    composer require ramunasd/symfony-container-mocks --no-scripts --no-interaction && \
     rm ${APP_ROOT}/app/config/parameters.yml && \
-    echo "HTTP server is up" > ${APP_ROOT}/web/serverup.txt && \
-    chown -R ${APP_USER}:${APP_USER} ${APP_ROOT}
+    echo "HTTP server is up" > ${APP_ROOT}/web/serverup.txt
 
 EXPOSE 80
 
-
-RUN composer global require hirak/prestissimo --prefer-dist --no-interaction \
-    && composer require ramunasd/symfony-container-mocks --no-scripts --no-interaction
 
 #RUN cat /app/app/config/parameters.yml
 #RUN echo "    github.secret: ~" >> /app/app/config/parameters.yml

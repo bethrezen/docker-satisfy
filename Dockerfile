@@ -22,13 +22,15 @@ RUN \
       php7-iconv php7-json php7-mbstring php7-openssl php7-phar php7-session \
       php7-simplexml php7-xml php7-xmlwriter php7-tokenizer php7-opcache \
       nginx unit-php7 \
-      procmail libxml2-dev inotify-tools jq zip curl openssh-client git && \
+      procmail libxml2-dev inotify-tools jq zip curl openssh-client git unzip && \
     apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community gnu-libiconv && \
     apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gosu && \
     curl -o /usr/local/bin/composer https://getcomposer.org/download/${COMPOSER_VERSION}/composer.phar && \
     chmod +x /usr/local/bin/composer && \
     rm -rf /var/cache/apk/* && \
     if [[ "$APP_USER" != "root" ]]; then adduser -h ${APP_ROOT} -D -H ${APP_USER}; fi
+
+USER satisfy
 
 WORKDIR ${APP_ROOT}
 
@@ -40,8 +42,6 @@ RUN \
 
 EXPOSE 80
 
-RUN apk add unzip
-USER satisfy
 
 RUN composer global require hirak/prestissimo --prefer-dist --no-interaction \
     && composer require ramunasd/symfony-container-mocks --no-scripts --no-interaction

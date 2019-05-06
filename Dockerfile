@@ -4,7 +4,7 @@ ARG APP_USER=satisfy
 
 ENV \
     COMPOSER_VERSION=1.8.5 \
-    SATISFY_VERSION=3.x-dev \
+    SATISFY_VERSION=3.1 \
     LD_PRELOAD=/usr/lib/preloadable_libiconv.so \
     PHP_INI_PATH=/etc/php7/php.ini \
     PHP_INI_SCAN_DIR=/etc/php7/conf.d \
@@ -68,4 +68,6 @@ CMD [ "satisfy" ]
 
 VOLUME "/app/.composer"
 VOLUME "/app/.ssh"
-VOLUME "/app/web"
+VOLUME "/app/web/p"
+VOLUME "/app/web/include"
+VOLUME "/app/satis.json"
